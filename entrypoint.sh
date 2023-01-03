@@ -53,6 +53,8 @@ echo "Copying to website folder"
 # aws s3 sync ./build/${PROJECT_NAME} s3://${AWS_S3_BUCKET} --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 aws s3 sync build s3://${AWS_S3_BUCKET} --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 
-echo "Cleaning up things"
+echo "Invalidating CloudFront Cache"
+aws cloudfront create-invalidation --distribution-id E2JBU29CM18BGM --paths "/*"
 
+echo "Cleaning up things"
 rm -rf ~/.aws
